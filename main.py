@@ -13,15 +13,23 @@ import requests
 import json
 
 	
-def instagram(self):
+def statigr(self):
+	'''simple extraction of statigram 
+	that already use INSTAGRAM API
+	*stat of user:
+		- media, follower, following
+	*stat per image:
+		-like, comment, favorite pict
+	'''
 	self._values = {}
-	#~ res = bs(self._content).find('ul', {'class':'stats'})
-	#~ for n in res.find_all('li'):
-		#~ self._values[re.sub(" ","", n.strong.nextSibling).lower()] = re.sub(r"\D","",n.strong.get_text()) 
-	#~ return self
+	dict_img = {}
 	for n in bs(self._content).findAll("div", {"class":re.compile('^user.*?$')}):
 		for n in zip(n.findAll("span",{"class":"chiffre"}), n.findAll("span",{"class":"legende"})):
-			self._values[n[1].get_text()] = int((n[0]).get_text())
+			self._values[n[1].get_text()] = int((n[0]).get_text())	
+	for n in bs(self._content).findAll("div", {"id":re.compile('^detailPhoto.*?$')}):
+		for img in n.findAll('span'):
+			dict_img[img.get('class')[0]] = img.get_text()
+		self._values[n.find('img')['src']] = dict_img 		
 	return self
 	
 def youtube(self):
@@ -117,10 +125,6 @@ class Page(Connexion):
 	'''simple function to dispatch treatement according to the type of Ressources'''
 	def __init__(self, url):
 		Connexion.__init__(self, url)
-		#~ self._type = None
-		#~ self._curr_page = None
-		#~ self_id_page = None
-		#~ self._links = None 
 		self._values = None
 	
 	def get_type(self):
@@ -144,15 +148,12 @@ class Page(Connexion):
 			try:
 				getattr(sys.modules[__name__],self._type)(self)
 			except AttributeError:
-				if self._type == "statigr":
-					instagram(self);
-				else:
-					print "Extractor not implemented for %s" %self._type 
+				print "Extractor not implemented for %s" %self._type 
 			
 		else:
 			return "Not Implemented"
 
 if __name__ == '__main__':
-		msg = Page('http://statigr.am/hellobank')
+		msg = Page()
 		msg.dispatch()
 		print msg._values
