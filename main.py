@@ -14,7 +14,14 @@ import json
 
 	
 def instagram(self):
-	self._values =  bs(self._content).findAll("span", {"class": "chiffre"})[1].text
+	self._values = {}
+	#~ res = bs(self._content).find('ul', {'class':'stats'})
+	#~ for n in res.find_all('li'):
+		#~ self._values[re.sub(" ","", n.strong.nextSibling).lower()] = re.sub(r"\D","",n.strong.get_text()) 
+	#~ return self
+	for n in bs(self._content).findAll("div", {"class":re.compile('^user.*?$')}):
+		for n in zip(n.findAll("span",{"class":"chiffre"}), n.findAll("span",{"class":"legende"})):
+			self._values[n[1].get_text()] = int((n[0]).get_text())
 	return self
 	
 def youtube(self):
@@ -137,12 +144,15 @@ class Page(Connexion):
 			try:
 				getattr(sys.modules[__name__],self._type)(self)
 			except AttributeError:
-				print "Extractor not implemented for %s" %self._type 
+				if self._type == "statigr":
+					instagram(self);
+				else:
+					print "Extractor not implemented for %s" %self._type 
 			
 		else:
 			return "Not Implemented"
 
 if __name__ == '__main__':
-		msg = Page('http://www.youtube.com/watch?v=fY9UhIxitYM')
+		msg = Page('http://statigr.am/hellobank')
 		msg.dispatch()
 		print msg._values
