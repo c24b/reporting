@@ -14,13 +14,14 @@ import json
 
 	
 def statigr(self):
-	'''simple extraction of statigram 
-	that already use INSTAGRAM API
-	*stat of user:
+	'''simple extraction of statigram (that already use INSTAGRAM API)
+	url should begin by http://statigr.am/ 
+	* stat of user:
 		- media, follower, following
-	*stat per image:
+	* stat per image(limit to first load):
 		-like, comment, favorite pict
 	'''
+	
 	self._values = {}
 	dict_img = {}
 	for n in bs(self._content).findAll("div", {"class":re.compile('^user.*?$')}):
@@ -139,7 +140,7 @@ class Page(Connexion):
 			self._status = False
 	def dispatch(self):
 		'''
-		mini dispatcher de méthode d'extractions en fonction du type de ressource
+		mini dispatcher for different extracting method using getattr
 		'''
 		
 		self.get_type()
@@ -151,7 +152,7 @@ class Page(Connexion):
 				print "Extractor not implemented for %s" %self._type 
 			
 		else:
-			return "Not Implemented"
+			return "Type is not defined"
 
 if __name__ == '__main__':
 		msg = Page()
