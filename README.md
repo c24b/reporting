@@ -31,8 +31,8 @@ make it work
 		* GRAPH
 	* add the options for mail
 		* FROM, TO , TITLE OF THE MAIL
-4. into a CRONTAB for routine:
->m h  dom mon dow python report/main.py 
+4. into a CRONTAB for routine:,
+> m h  dom mon dow python report/main.py 
 
 **And you're done!**
 
