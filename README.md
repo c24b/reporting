@@ -1,6 +1,7 @@
 reporting
 =========
-PURPOSE
+
+purpose
 ---
 
 >"Simple script made to  relieve the poor online community manager
@@ -9,7 +10,7 @@ PURPOSE
 
 > And **No, there is no need to authenticate** or use special APIs" 
 
-DESCRIPTION
+description
 ---
 Simple script for reporting social media performances such as, for now, Facebook, Twitter, Instagram:
 
@@ -19,7 +20,7 @@ Convert social metrics into:
 
 and can be send by mail
 
-HOW DO I RUN IT?
+make it work
 -----
 1. create a csv file called "report.csv"
 2. add into the report.csv the url of the webpage (facebook, twitter, instasearch): one url by one line s shown in example report.csv
