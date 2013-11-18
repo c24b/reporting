@@ -2,11 +2,11 @@ reporting
 =========
 
 
-"Simple script made to  relieve the poor online community manager
-(simple gift for my old teammates :))  
-that copy paste every day simple stats on their favorite social network and send it to their client.
+>"Simple script made to  relieve the poor online community manager
+>(simple gift for my old teammates :))  
+>that copy paste every day simple stats on their favorite social network and send it to their client.
 
-No, there is no need to authenticate or use special API" 
+>No, there is no need to authenticate or use special API" 
 
 Simple script for reporting social media performances such as, for now, Facebook, Twitter, Instagram:
 
