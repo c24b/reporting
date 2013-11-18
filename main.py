@@ -131,12 +131,10 @@ class Connexion(object):
 			self._redirect = ''
 			'''OLD VERSION
 			r = requests.get(self._url,cert=None, verify=False, headers=self._headers, 
-							#~ allow_redirects=self._active_redir,
-							#~ timeout=self._timeout*2)
-			r = requests.get(self._url,
-							headers=self._headers, 
 							allow_redirects=self._active_redir,
-							timeout=self._timeout*3,verify=False)
+							timeout=self._timeout)
+			
+			'''
 				
 			print r.headers['status']
 		else:
