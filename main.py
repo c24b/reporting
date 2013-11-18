@@ -23,7 +23,6 @@ def read_url(filename):
 	with file_handler as f:
 		csv_reader = csv.reader(file_handler, delimiter="\n")
 		for row in file_handler:
-			#print row
 			p = Page(row)
 			p.dispatch()
 			print p._values['data']	
@@ -103,7 +102,7 @@ class Connexion(object):
 	- status_code
 	- redirect
 	'''
-	def __init__(self, url, timeout=5, proxies ={'http':'http://127.0.0.1:8888','https':'http://127.0.0.1:8888' },headers={'content-type': 'application/json', 'User-agent':'Mozilla/5.0 (Windows NT 6.1; WOW64)'}, retry = 2, redir=True):
+	def __init__(self, url, timeout=5, proxies ={},headers={'content-type': 'application/json', 'User-agent':'Mozilla/5.0 (Windows NT 6.1; WOW64)'}, retry = 2, redir=True):
 		#useragent=['Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1', u'Mozilla/5.0 (Windows NT 6.1; rv:15.0) Gecko/20120716 Firefox/15.0a2', u'Mozilla/5.0 (compatible; MSIE 10.6; Windows NT 6.1; Trident/5.0; InfoPath.2; SLCC1; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 2.0.50727) 3gpp-gba UNTRUSTED/1.0', u'Opera/9.80 (Windows NT 6.1; U; es-ES) Presto/2.9.181 Version/12.00']
 		self._timeout = timeout
 		self._proxies = proxies
@@ -182,10 +181,10 @@ class Page(Connexion):
 		with or without the www.
 		'''
 		try:
-			self._type =(urlparse(self._url).netloc).split(".")[-2]
-			print self._type			
+			self._type =(urlparse(self._url).netloc).split(".")[-2]			
 		except IndexError:
 			self._status = False
+			self._type = None
 	def dispatch(self):
 		'''
 		mini dispatcher for different extracting method using getattr
