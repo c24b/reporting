@@ -26,7 +26,7 @@ def read_url(filename):
 			#print row
 			p = Page(row)
 			p.dispatch()
-			print p._values['data']		
+			print p._values['data']	
 	file_handler.close()
 
 def txt2int(n):
@@ -76,8 +76,7 @@ def youtube(self):
 
 def twitter(self):
 	res = bs(self._content).find('ul', {'class':'stats'})
-	for n in res.find_all('li'):
-		self._values[re.sub(" ","", n.strong.nextSibling).lower()] = re.sub(r"\D","",n.strong.get_text()) 
+	self._values['data'] = {'stats':[dict((re.sub(" ","", n.strong.nextSibling).lower(), int(re.sub(r"\D","",n.strong.get_text()))) for n in res.findAll('li'))]} 
 	return self
 	
 
@@ -134,18 +133,17 @@ class Connexion(object):
 							allow_redirects=self._active_redir,
 							timeout=self._timeout)
 			
-			'''
-				
 			print r.headers['status']
+			'''
 		else:
-			r = requests.get(self._url,headers=self._headers, allow_redirects=self._active_redir,timeout=self._timeout, proxies=self._proxies)
-		
-			self._content = r.text
-			self._status_code = r.status_code
-			self._redirect = r.history
-		#~ except requests.exceptions.ConnectionError, e:
-			#~ self._status_code = 404
-			#~ self._status_msg = e
+			try:
+				r = requests.get(self._url,headers=self._headers, allow_redirects=self._active_redir,timeout=self._timeout, proxies=self._proxies)
+				self._content = r.text
+				self._status_code = r.status_code
+				self._redirect = r.history
+			except requests.exceptions.ConnectionError, e:
+				self._status_code = 404
+				self._status_msg = e
 		return self
 		
 	def check(self):
@@ -203,9 +201,11 @@ class Page(Connexion):
 				else:
 					self._values['data'] = [{"status": self._status_code}, {'msg': self._statusmsg}]			
 			except AttributeError:
-				print "Extractor not implemented for %s" %self._type 
+				print "Extractor not implemented for %s" %self._type
+				self._values['data'] = [{"status": False}, {'msg': "Error in internal extraction method"}] 
 		else:
 			print "Type is not defined"
+			self._values['data'] = [{"status": False}, {'msg': "Type of url is not defined"}]
 		return self
 
 if __name__ == '__main__':
