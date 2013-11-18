@@ -15,20 +15,22 @@ description
 Simple script for reporting social media performances such as, for now, Facebook, Twitter, Instagram:
 
 Convert social metrics into:
-*JSON
-*HTML
+* JSON
+* HTML
 
 and can be send by mail
 
 make it work
 -----
 1. create a csv file called "report.csv"
-2. add into the report.csv the url of the webpage (facebook, twitter, instasearch): one url by one line s shown in example report.csv
-3.Into main.py: 
-	*add the type of report you want:
-		*HTML/CSV/GRAPH
-	*add the options for mail
-		*FROM, TO , TITLE OF THE MAIL
+2. add into the report.csv the url of the webpage (facebook, twitter, instasearch): one url by one line s shown in example report.csv,
+3. Into main.py: 
+	* add the type of report you want:
+		* HTML
+		* CSV
+		* GRAPH
+	* add the options for mail
+		* FROM, TO , TITLE OF THE MAIL
 4. into a CRONTAB for routine:
 >m h  dom mon dow python report/main.py 
 
