@@ -75,8 +75,10 @@ def youtube(self):
 			
 
 def twitter(self):
-	res = bs(self._content).find('ul', {'class':'stats'})
-	self._values['data'] = {'stats':[dict((re.sub(" ","", n.strong.nextSibling).lower(), int(re.sub(r"\D","",n.strong.get_text()))) for n in res.findAll('li'))]} 
+	self._values['data'] = {'stats':
+							dict((re.sub(" ","", n.strong.nextSibling).lower(), int(re.sub(r"\D","",n.strong.get_text()))) 
+							for n in bs(self._content).find('ul', {'class':'stats'}).findAll('li'))
+							} 
 	return self
 	
 
@@ -85,10 +87,9 @@ def facebook(self):
 	if n is not None:
 		res = (n[2].string).encode("utf-8")
 		like = re.split("class\=\"fsm.fwn.fcg\"\>|·|\<\/div\>\<\/div\>\<\/h2\>", res)
-		self._values['likes'] = (re.sub(r"\D","", like[2]))
-		self._values['talking'] = (re.sub(r"\D","", like[3]))
+		self._values['data'] = {'stats':{'likes' : int(re.sub(r"\D","", like[2])),'talking': int(re.sub(r"\D","", like[3]))}}
 		return self
-
+	 
 
 class Connexion(object):
 	''' 
@@ -182,7 +183,7 @@ class Page(Connexion):
 		'''
 		try:
 			self._type =(urlparse(self._url).netloc).split(".")[-2]
-			
+			print self._type			
 		except IndexError:
 			self._status = False
 	def dispatch(self):
