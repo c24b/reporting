@@ -122,6 +122,7 @@ class Page(Connexion):
 				self._values['url'] = re.sub("\\n", "", self._url)
 				if self._status is not False:
 					getattr(sys.modules[__name__],self._type)(self)
+					
 				else:
 					self._values['error'] = {{"status": self._status_code}, {'msg': self._statusmsg}}			
 			except AttributeError:
